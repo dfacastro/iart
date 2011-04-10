@@ -121,8 +121,10 @@ public class Config {
                 else if (line.split("-")[0].equals("BUS")) {
                     String[] tokens = line.split("-");
                     String busID = tokens[1];
-                    String[] line1, line2 = null;
-                    Boolean isFirst = true;
+                    String[] line1 = new String[0];
+                    String[] line2 = new String[0];
+                    Boolean isFirstLine = true;
+                    Boolean isFirstBusStop = true;
                     Boolean isLast = false;
 
                     line = bufRead.readLine();
@@ -139,8 +141,8 @@ public class Config {
                         }
 
                         //se for a primeira linha..
-                        if (isFirst) {
-                            isFirst = false;
+                        if (isFirstLine) {
+                            isFirstLine = false;
                             //então encontramos o terminal de partida
                             line2 = line.split(" ");
                         }
@@ -161,6 +163,10 @@ public class Config {
                             else
                                 bsi = new BusStopInfo(line2[0]);
                             
+                            if (isFirstBusStop) {
+                                isFirstBusStop = false;
+                                bsi.setFirst();
+                            }
                             //para cada hora, adicionar ao horário
                             for (int i = 1; i < line1.length; i++) {
 
@@ -174,6 +180,8 @@ public class Config {
                         }
                         line = bufRead.readLine();
                     }
+                    Main.fixBusName(busID, line1[0]);
+                    Main.buses.add(busID + "-" + line1[0]);
                 }
                 line = bufRead.readLine();
             }

@@ -6,25 +6,25 @@ import org.jgraph.JGraph;
 public class Main {
 
 
- // Usage: java SVGGraph gxl-file svg-file
-  public static void main(String[] args) {
-   
-    // Construct the graph to hold the ettributes
-    JGraph graph = new JGraph(new DefaultGraphModel());
-    // Read the GXL file into the model
-    read(new File(args[0]), graph.getModel());
-    // Apply Layout
-    layout(graph);
-    // Resize (Otherwise not Visible)
-    graph.setSize(graph.getPreferredSize());
-   
-    // Write the SVG file
-    write(graph, out);
-    
-  }
+// Usage: java SVGGraph gxl-file svg-file
+public static void main(String[] args) {
+
+// Construct the graph to hold the ettributes
+JGraph graph = new JGraph(new DefaultGraphModel());
+// Read the GXL file into the model
+read(new File(args[0]), graph.getModel());
+// Apply Layout
+layout(graph);
+// Resize (Otherwise not Visible)
+graph.setSize(graph.getPreferredSize());
+
+// Write the SVG file
+write(graph, out);
+
+}
 }
 
-*/
+ */
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
@@ -52,10 +52,10 @@ public class Main {
     //public static HashMap<String, Integer[]> busStops;
     //public static Vector<Bus> buses;
     public double ticket_price;
-
-
     //
     public static Vector<BusStop> busStops = new Vector<BusStop>();
+    public static Vector<String> buses = new Vector<String>();
+    public static MyGraph mg = new MyGraph();
 
     public static void main(String[] args) {
 
@@ -67,37 +67,60 @@ public class Main {
 
         printFrames();
 
- /*       ArrayList<Integer> a = new ArrayList<Integer>();
+
+
+
+        /*       ArrayList<Integer> a = new ArrayList<Integer>();
         //LinkedList<Integer> a = new LinkedList<Integer>();
         a.add(2); a.add(1); a.add(9); a.add(5);
         
         System.out.println("TESTE");
         for(int i = 0; i < a.size(); i++)
-            System.out.println(a.get(i));
+        System.out.println(a.get(i));
 
         Integer[] ai = new Integer[1];
         ai = a.toArray(ai);
 
         Arrays.sort(ai);
         a = new ArrayList<Integer>( Arrays.asList(ai));
-*/
+         */
 
         /*for(int i = 0; i < busStops.size(); i++)
-            busStops.get(i).print();*/
+        busStops.get(i).print();*/
 
         //buses = c.getBuses();
         //busStops = c.getBusStops();
 
-/*        Vector<String> r = buses.get(0).route;
+        /*        Vector<String> r = buses.get(0).route;
         for(int i = 0; i < r.size(); i++)
-            System.out.println("ROUTE: " + r.get(i));*/
+        System.out.println("ROUTE: " + r.get(i));*/
 
-        MyGraph mg = new MyGraph();
+
         mg.init();
-        //mg.addVertexes(busStops);
+
+        //adicionar vertices
+        for (int i = 0; i < busStops.size(); i++) {
+            mg.addVertex(busStops.get(i).getName(), busStops.get(i).getXCoord(), busStops.get(i).getYCoord());
+        }
+
+        //adicionar arestas
+        for (int i = 0; i < busStops.size(); i++) {
+            String origin = busStops.get(i).getName();
+            Vector<String> neighbors = busStops.get(i).getNeighbors();
+
+            for (int j = 0; j < neighbors.size(); j++) {
+                mg.addEdge(origin, neighbors.get(j));
+            }
+        }
+
         mg.show(true);
 
-      /*  GraphModel model = new DefaultGraphModel();
+
+
+        displayRoute(0);
+
+
+        /*  GraphModel model = new DefaultGraphModel();
 
         GraphLayoutCache view = new GraphLayoutCache(model, new DefaultCellViewFactory());
         JGraph graph = new JGraph(model, view);
@@ -116,8 +139,8 @@ public class Main {
 
         GraphConstants.setBounds(cells[1].getAttributes(), new Rectangle2D.Double(140, 140, 40, 20));
         GraphConstants.setGradientColor(
-                cells[1].getAttributes(),
-                Color.red);
+        cells[1].getAttributes(),
+        Color.red);
         GraphConstants.setOpaque(cells[1].getAttributes(), true);
         DefaultPort port1 = new DefaultPort();
         cells[1].add(port1);
@@ -140,6 +163,49 @@ public class Main {
         frame.setVisible(true);*/
     }
 
+    /**
+     * Mostra no grafo o trajecto do autocarro na posição 'index'
+     * Mostra todos os trajectos se index = -1
+     * @param index: posiçao do autocarro cujo trajecto se pretende mostrar
+     */
+    public static void displayRoute(int index) {
+        if (index < -1 || index >= buses.size()) {
+            return;
+        }
+
+        if (index == -1) {
+            for (int i = 0; i < busStops.size(); i++) {
+                String origin = busStops.get(i).getName();
+                Vector<String> neighbors = busStops.get(i).getNeighbors();
+
+                for (int j = 0; j < neighbors.size(); j++) {
+                    mg.addEdge(origin, neighbors.get(j));
+                }
+                return;
+            }
+        }
+
+        String busID = buses.get(index);
+        Vector<String> route = new Vector<String>();
+
+        //encontrar o ponto de partida do autocarro
+        for (int i = 0; i < busStops.size(); i++) {
+            if (busStops.get(i).isBusFirstStop(busID)) {
+                //encontrar o resto do percurso
+                busStops.get(i).getBusRoute(busID, route);
+                break;
+            }
+        }
+
+
+        //mostra no grafo o trajecto encontrado
+        mg.resetEdges();
+
+        for (int i = 1; i < route.size(); i++) {
+            mg.addEdge(route.get(i - 1), route.get(i));
+        }
+
+    }
 
     /**
      * Actualiza a informação do horário de uma paragem já existente
@@ -148,27 +214,38 @@ public class Main {
      * @param bsi: informação do horário
      */
     public static void addBusStopInfo(String busStopID, String busID, BusStopInfo bsi) {
-        
-        for(int i = 0; i < busStops.size(); i++) {
-            if(busStops.get(i).getName().equals(busStopID)) {
-                
+
+        for (int i = 0; i < busStops.size(); i++) {
+            if (busStops.get(i).getName().equals(busStopID)) {
+
                 busStops.get(i).addBusStopInfo(busID, bsi);
                 return;
             }
         }
-
-
+        
         System.out.println("ERRO: Paragem '" + busStopID + "' não encontrada.");
         System.exit(1);
     }
 
+    /**
+     * Actualiza o nome do autocarro busID, dando-lhe o nome da paragem terminal como sufixo
+     * 804 -> 804-S.João
+     * @param busID nome do autocarro
+     * @param busTerminal sufixo
+     */
+    public static void fixBusName(String busID, String busTerminal) {
+
+        for (int i = 0; i < busStops.size(); i++) {
+            busStops.get(i).fixBusName(busID, busID + "-" + busTerminal);
+        }
+    }
 
     /**
      * Imprime as frames
      */
     public static void printFrames() {
-        for(int i = 0; i < busStops.size(); i++)
+        for (int i = 0; i < busStops.size(); i++) {
             busStops.get(i).printFrame();
+        }
     }
 }
-

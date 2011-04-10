@@ -12,13 +12,10 @@ import java.util.Vector;
  */
 public class BusStopInfo {
 
-    private BusStop nextStop;
+    private BusStop nextStop = null;
+    private Boolean isFirst = false;
     //StopSchedule[] schs = new StopSchedule[]; //Arrays.sort(schs);
     private ArrayList<StopSchedule> schs = new ArrayList<StopSchedule>();
-
-    BusStopInfo() {
-        //Arrays.sort(schs);
-    }
     
     BusStopInfo(String ns) {
         if (ns.equals("")) {
@@ -35,6 +32,14 @@ public class BusStopInfo {
        System.exit(1);
     }
 
+    public void setFirst() {
+        isFirst = true;
+    }
+
+    public Boolean isFirst() {
+        return isFirst;
+    }
+
     public void addSch(int h, int m) {
         StopSchedule ss = new StopSchedule(h, m);
         schs.add(ss);
@@ -44,6 +49,9 @@ public class BusStopInfo {
         nextStop = next;
     }
 
+    /**
+     * Ordena o horário por ordem crescente
+     */
     public void sortSch() {
         
         StopSchedule[] arr = new StopSchedule[0];

@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Vector;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
@@ -26,7 +27,7 @@ import org.jgrapht.graph.ListenableDirectedWeightedGraph;
  * @author Diogo
  */
 public class MyGraph extends JApplet {
-    ListenableDirectedWeightedGraph<String,String> g = new ListenableDirectedWeightedGraph ( DefaultWeightedEdge.class );
+    ListenableDirectedWeightedGraph<String,String> g = new ListenableDirectedWeightedGraph ( DefaultWeightedEdge.class);
     
     private static final Color     DEFAULT_BG_COLOR = Color.decode( "#FAFBFF" );
     private static final Dimension DEFAULT_SIZE = new Dimension( 530, 320 );
@@ -63,6 +64,46 @@ public class MyGraph extends JApplet {
             g.addVertex((String) keys[i]);
             positionVertexAt((String) keys[i] , vertexes.get((String) keys[i])[0], vertexes.get((String) keys[i])[1] );
         }
+    }
+
+    /**
+     * Adiciona ao grafo uma aresta direccionada entre os vertices 'a' e 'b'.
+     * @param a: vertice origem
+     * @param b: vertice destino
+     */
+    public void addEdge(String a, String b) {
+        g.addEdge(a,b, a + " - " + b);
+        Object[] x = g.edgeSet().toArray();
+
+      //  for(int i = 0; i < x.length; i++)
+       //     System.out.println(x[i]);
+
+        //System.out.println(g.getEdgeWeight());
+        /*
+        String e = g.getEdge(a, b);
+        g.setEdgeWeight(g.getEdge(a, b), 29.0);
+        System.out.println(e);
+
+        s = s + ".";
+        System.out.println(s);*/
+    }
+
+    /**
+     * Adiciona o vertice V ao grafo na posição x,y
+     * @param v: vertixe a adicionar
+     * @param x: posição x
+     * @param y: posição y
+     */
+    public void addVertex(String v, int x, int y) {
+        g.addVertex(v);
+        positionVertexAt(v, x, y);
+    }
+
+    public void resetEdges() {
+        Object[] edges = g.edgeSet().toArray();
+
+        for(int i = 0; i < edges.length; i++)
+            g.removeEdge((String) edges[i]);
     }
 
     /**
