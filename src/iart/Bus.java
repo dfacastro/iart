@@ -32,13 +32,3 @@ public class Bus {
    }
 }
 
-
-class StopSchedule {
-    public int hour;
-    public int minutes;
-
-    StopSchedule() {
-        hour = 0;
-        minutes = 0;
-    }
-}
