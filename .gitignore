@@ -1,0 +1,9 @@
+*
+!*.txt
+!readme
+!/src/
+!src/*
+!/src/iart/
+!src/iart/*.java
+!src/iart/*.txt
+!.gitignore
