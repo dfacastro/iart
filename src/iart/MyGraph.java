@@ -121,6 +121,10 @@ public class MyGraph extends JApplet {
         frame.setVisible(b);
     }
     
+    public JGraph getJGraph() {
+        return jgraph;
+    }
+
     private void adjustDisplaySettings( JGraph jg ) {
         jg.setPreferredSize( DEFAULT_SIZE );
 

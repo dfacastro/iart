@@ -23,9 +23,9 @@ public class BusStopInfo {
             return;
         }
 
-        for(int i = 0; i < Main.busStops.size(); i++)
-            if(Main.busStops.get(i).getName().equals(ns)) {
-                nextStop = Main.busStops.get(i);
+        for(int i = 0; i < Display.busStops.size(); i++)
+            if(Display.busStops.get(i).getName().equals(ns)) {
+                nextStop = Display.busStops.get(i);
                 return;
             }
        System.out.println("ERRO: Paragem '" + ns + "' não encontrada.");
