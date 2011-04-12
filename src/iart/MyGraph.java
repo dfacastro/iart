@@ -26,7 +26,7 @@ import org.jgrapht.graph.ListenableDirectedWeightedGraph;
  * Implementa grafo dirigido pesado
  * @author Diogo
  */
-public class MyGraph extends JApplet {
+public class MyGraph extends JFrame {
     ListenableDirectedWeightedGraph<String,String> g = new ListenableDirectedWeightedGraph ( DefaultWeightedEdge.class);
     
     private static final Color     DEFAULT_BG_COLOR = Color.decode( "#FAFBFF" );
@@ -41,7 +41,7 @@ public class MyGraph extends JApplet {
      */
     public void init() {
 
-        // create a visualization using JGraph, via an adapter
+        // cria a visualizacao usando JGraph, atraves de um adaptador
         m_jgAdapter = new JGraphModelAdapter( g );
 
         jgraph = new JGraph( m_jgAdapter );
@@ -49,7 +49,8 @@ public class MyGraph extends JApplet {
         adjustDisplaySettings( jgraph );
         getContentPane(  ).add( jgraph );
         resize( DEFAULT_SIZE );
-
+        
+        jgraph.setMoveable(false);
         
     }
 
@@ -131,11 +132,11 @@ public class MyGraph extends JApplet {
         Color  c        = DEFAULT_BG_COLOR;
         String colorStr = null;
 
-        try {
+/*        try {
             colorStr = getParameter( "bgcolor" );
         }
          catch( Exception e ) {}
-
+*/
         if( colorStr != null ) {
             c = Color.decode( colorStr );
         }

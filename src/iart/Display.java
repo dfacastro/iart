@@ -30,6 +30,14 @@ public class Display extends javax.swing.JFrame {
 
     /** Creates new form Display */
     public Display() {
+
+        Config c = new Config();
+        c.load();
+        printFrames();
+        //graph
+
+        initGraph();
+
         initComponents();
     }
 
@@ -42,91 +50,107 @@ public class Display extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame2 = new javax.swing.JFrame();
-        jPanel1 = new javax.swing.JPanel();
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 141, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
-        jFrame2.getContentPane().setLayout(jFrame2Layout);
-        jFrame2Layout.setHorizontalGroup(
-            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(237, Short.MAX_VALUE))
-        );
-        jFrame2Layout.setVerticalGroup(
-            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
-        );
+        jScrollPane1 = new javax.swing.JScrollPane(jgraph);
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("STCP");
+
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = buses.toArray(new String[0]);//{ "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList1);
+
+        jLabel1.setText("Autocarros:");
+
+        jButton2.setText("Visualizar Rota");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Ver todas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:        
+        displayRoute(jList1.getAnchorSelectionIndex());
+        System.out.println("Selected Bus no.: " + jList1.getAnchorSelectionIndex());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        displayRoute(-1);
+        System.out.println("Displaying all routes.");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
     * @param args the command line arguments
     */
     public static void main(String args[]) {
-        /*java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Display().setVisible(true);
             }
-        });*/
+        });
         
-        Config c = new Config();
-        c.load();
-        printFrames();
+        
 
-
-        //graph
-        mg.init();
-
-        //adicionar vertices
-        for (int i = 0; i < busStops.size(); i++) {
-            mg.addVertex(busStops.get(i).getName(), busStops.get(i).getXCoord(), busStops.get(i).getYCoord());
-        }
-
-        //adicionar arestas
-        for (int i = 0; i < busStops.size(); i++) {
-            String origin = busStops.get(i).getName();
-            Vector<String> neighbors = busStops.get(i).getNeighbors();
-
-            for (int j = 0; j < neighbors.size(); j++) {
-                mg.addEdge(origin, neighbors.get(j));
-            }
-        }
-
-        mg.show(true);
+        //mg.show(true);
 
         jgraph = mg.getJGraph();
 
-        displayRoute(-1);
+        //displayRoute(-1);
+
+        //System.out.println(jFrame2 == null);
+
 
     }
 
@@ -144,6 +168,8 @@ public class Display extends javax.swing.JFrame {
         }
 
         if (index == -1) {
+            mg.resetEdges();
+            
             for (int i = 0; i < busStops.size(); i++) {
                 String origin = busStops.get(i).getName();
                 Vector<String> neighbors = busStops.get(i).getNeighbors();
@@ -151,8 +177,9 @@ public class Display extends javax.swing.JFrame {
                 for (int j = 0; j < neighbors.size(); j++) {
                     mg.addEdge(origin, neighbors.get(j));
                 }
-                return;
+
             }
+            return;
         }
 
         String busID = buses.get(index);
@@ -210,6 +237,33 @@ public class Display extends javax.swing.JFrame {
         }
     }
 
+
+    /**
+     * Inicializa o grafo e respectivos vertices e arestas
+     */
+    public void initGraph() {
+        mg.init();
+
+        //adicionar vertices
+        for (int i = 0; i < busStops.size(); i++) {
+            mg.addVertex(busStops.get(i).getName(), busStops.get(i).getXCoord(), busStops.get(i).getYCoord());
+        }
+
+        //adicionar arestas
+        for (int i = 0; i < busStops.size(); i++) {
+            String origin = busStops.get(i).getName();
+            Vector<String> neighbors = busStops.get(i).getNeighbors();
+
+            for (int j = 0; j < neighbors.size(); j++) {
+                mg.addEdge(origin, neighbors.get(j));
+            }
+        }
+        jgraph = mg.getJGraph();
+
+    }
+
+    
+
     /**
      * Imprime as frames
      */
@@ -220,8 +274,12 @@ public class Display extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JFrame jFrame2;
-    private static javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JList jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 
 }
