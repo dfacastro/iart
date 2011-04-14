@@ -35,14 +35,37 @@ public class Node {
         return arrival;
     }
     
-    public double heuristica (BusStop goal) {
+    public double heuristica (BusStop goal) { //metodo de calculo das heuristicas
     	double h=0;
+    	// distancia = raiz((x^2-x1^2)+(y^2-y1^2))
+    	double distancia = java.lang.Math.sqrt((goal.getXCoord()*goal.getXCoord() - bstop.getXCoord()*bstop.getXCoord()) 
+    			+ (goal.getYCoord()*goal.getYCoord() - bstop.getYCoord()*bstop.getYCoord()));
+		
     	switch (Display.mode){
-    	case COST:
-    		break;
     	case DISTANCE:
+    		h = distancia;
+    		break;
+    	case COST:
+    		if(parent == null){
+    			boolean passa2 = false; //se um autocarro da paragem passa na final
+    			boolean passa = false; //se o autocarro actual passa na final
+    			
+    			for(int i=0; i < bstop.getBuses().length; i++)
+    				for(int j=0; j < goal.getBuses().length; j++)
+    					if(bstop.getBuses()[i].equals(goal.getBuses()[j]))
+    						passa2 = true;	
+    			
+    			for(int j=0; j < goal.getBuses().length; j++)
+					if(bus.equals(goal.getBuses()[j]))
+						passa = true;
+    			
+    			if(passa) h = 0; //esta num autocarro e nao apanha mais nenhum
+    			else if(passa2 && !passa) h = 1; //um dos autocarros da paragem passa na paragem final
+    			else h = 2; //nenhum autocarro passa na paragem final
+    		}
     		break;
     	case TIME:
+    		h = distancia*60 / 50;
     		break;
     	}
     	
