@@ -17,5 +17,20 @@ public class Node {
         bstop = bs;
         bus = busName;
     }
+    
+    public double heuristica (BusStop goal) {
+    	double h=0;
+    	switch (Display.mode){
+    	case COST:
+    		break;
+    	case DISTANCE:
+    		break;
+    	case TIME:
+    		break;
+    	}
+    	
+    	
+    	return h; 
+    }
 
 }

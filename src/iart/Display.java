@@ -27,6 +27,7 @@ public class Display extends javax.swing.JFrame {
     public static Vector<String> buses = new Vector<String>();
     public static MyGraph mg = new MyGraph();
     public static JGraph jgraph;
+    public static heuristicMode mode;
 
     /** Creates new form Display */
     public Display() {
@@ -282,4 +283,8 @@ public class Display extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 
+}
+
+enum heuristicMode {
+	DISTANCE, TIME, COST
 }
