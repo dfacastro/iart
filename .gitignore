@@ -8,3 +8,8 @@
 src/iart/JGraphAdapterDemo.java
 !src/iart/*.txt
 !.gitignore
+
+!/test/
+!test/*
+!/test/iart/
+!test/iart/*.java

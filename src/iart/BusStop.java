@@ -54,6 +54,19 @@ public class BusStop {
     }
 
     /**
+     * Retorna a hora da proxima partida do autocarro 'bus' nesta paragem.
+     * A hora e' a mais proxima da hora indicada.
+     * @param bus: autocarro
+     * @param now: hora actual
+     * @return
+     */
+    public StopSchedule departure(String bus, StopSchedule now) {
+        if(!schedules.containsKey(bus))
+            return null;
+        else return schedules.get(bus).departure(now);
+    }
+
+    /**
      * retorna a proxima paragem do autocarro 'bus'
      * @param bus
      * @return
@@ -114,7 +127,7 @@ public class BusStop {
 
     /**
      * Retorna um vector com o nome de todas as paragens
-     * para as quais é possível ir a partir desta paragem.
+     * para as quais e' possivel ir a partir desta paragem.
      * @return
      */
     public Vector<String> getNeighbors() {

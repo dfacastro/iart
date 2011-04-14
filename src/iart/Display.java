@@ -12,6 +12,8 @@
 package iart;
 
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JScrollPane;
 import org.jgraph.JGraph;
 
@@ -29,17 +31,21 @@ public class Display extends javax.swing.JFrame {
     public static JGraph jgraph;
     public static heuristicMode mode;
 
+    public static Boolean graphInitialized = false;
+
     /** Creates new form Display */
     public Display() {
 
         Config c = new Config();
         c.load();
         printFrames();
-        //graph
 
+        //graph
         initGraph();
 
         initComponents();
+
+        graphInitialized = true;
     }
 
     /** This method is called from within the constructor to
@@ -142,16 +148,25 @@ public class Display extends javax.swing.JFrame {
             }
         });
         
-        
-
-        //mg.show(true);
-
         jgraph = mg.getJGraph();
 
-        //displayRoute(-1);
+        //espera que o display (interface, grafo, etc) seja inicializado
+        while (!graphInitialized) {
+            
+        }
 
-        //System.out.println(jFrame2 == null);
-
+        /**
+         * Testa Geracao de nos sucessores
+         */
+        /*
+        Node n = new Node(busStops.get(3), new StopSchedule(11,0));
+        System.out.println("ROOT: " + busStops.get(3).getName());
+        Vector<Node> nodes = n.expand();
+        for(int i =0; i < nodes.size(); i++) {
+            System.out.print(nodes.get(i).getBusStop().getName() + "   " + nodes.get(i).getBus() + "  ");
+            nodes.get(i).getArrivalTime().print();
+            System.out.println();
+        }*/
 
     }
 

@@ -13,14 +13,26 @@ import java.util.Vector;
  */
 public class Node {
     BusStop bstop = null;
-    String bus = new String();  //autocarro usado para viajar até ao nó actual
+    String bus = new String("");  //autocarro usado para viajar até ao nó actual
+    StopSchedule arrival = null;
+    Double cost = -1.0;
 
     Vector<Node> children = new Vector<Node>();
     Node parent = null;
 
-    Node(BusStop bs, String busName) {
+    Node(BusStop bs, String busName, StopSchedule arr) {
         bstop = bs;
         bus = busName;
+        arrival = arr;
+    }
+
+    Node (BusStop bs, StopSchedule now) {
+        bstop = bs;
+        arrival = now;
+    }
+
+    public StopSchedule getArrivalTime() {
+        return arrival;
     }
     
     public double heuristica (BusStop goal) {
@@ -60,6 +72,10 @@ public class Node {
         return bstop;
     }
 
+    public String getBus() {
+        return bus;
+    }
+
     /**
      * retorna todos os nós filhos possíveis (excluindo as paragens ja visitadas no ramo)
      * @return
@@ -76,6 +92,9 @@ public class Node {
             Boolean alreadyVisited = false;
             Node n = parent;
 
+            if (next == null)
+                continue;
+
             //visita o ramo no sentido ascendente e verifica se a paragem ja foi visitada
             while(n != null) {
                 if (n.getBusStop().getName().equals(next.getName())) {
@@ -85,11 +104,27 @@ public class Node {
                 n = n.getParent();
             }
 
+            //tempo de chegada do autocarro bus a' paragem actual
+            StopSchedule departure = bstop.departure(buses[i], arrival);
+            //tempo de chegada do autocarro bus ao destino
+            StopSchedule next_arrival = next.departure(buses[i], departure);
             if(!alreadyVisited)
-                nodes.add(new Node( bstop.getBusNextStop(buses[i]), buses[i]));
+                nodes.add(new Node( next, buses[i], next_arrival));
+
         }
         
         return nodes;
+    }
+
+    /**
+     * Avalia o custo do no'
+     */
+    public void eval_cost() {
+
+        Node n = parent;
+        while(n != null) {
+            
+        }
     }
 
 }
