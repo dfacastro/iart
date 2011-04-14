@@ -45,6 +45,29 @@ public class BusStop {
     }
 
     /**
+     * retorna os autocarros que passam nesta paragem
+     * @return
+     */
+    public String[] getBuses() {
+        String[] a = new String[0];
+        return schedules.keySet().toArray(a);
+    }
+
+    /**
+     * retorna a proxima paragem do autocarro 'bus'
+     * @param bus
+     * @return
+     */
+    public BusStop getBusNextStop(String bus) {
+
+        if(!schedules.containsKey(bus))
+            return null;
+        else
+            return schedules.get(bus).nextStop();
+        
+    }
+
+    /**
      * verifica se esta e' a primeira paragem do autocarro indicado
      * @param busID
      */
