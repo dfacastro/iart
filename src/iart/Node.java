@@ -15,7 +15,7 @@ public class Node {
     BusStop bstop = null;
     String bus = new String("");  //autocarro usado para viajar até ao nó actual
     StopSchedule arrival = null;
-    Double cost = -1.0;
+    double cost = -1.0;
 
     Vector<Node> children = new Vector<Node>();
     Node parent = null;
@@ -99,6 +99,10 @@ public class Node {
         return bus;
     }
 
+    public double getCost() {
+        return cost;
+    }
+
     /**
      * retorna todos os nós filhos possíveis (excluindo as paragens ja visitadas no ramo)
      * @return
@@ -143,11 +147,31 @@ public class Node {
      * Avalia o custo do no'
      */
     public void eval_cost() {
-
-        Node n = parent;
-        while(n != null) {
-            
+        if (parent == null) {
+            cost = 0.0;
+            return;
         }
+
+        double previous_cost = (parent.getCost() < 0.0)? 0.0 : parent.getCost();
+        double this_cost = 0.0;
+
+        switch ( Display.mode) {
+            case DISTANCE:
+                this_cost = Math.hypot(bstop.getXCoord() - parent.getBusStop().getXCoord(),
+                        bstop.getYCoord() - parent.getBusStop().getYCoord());
+                break;
+            case COST:
+                // se os autocarros das duas ultimas arestas forem diferentes -> houve transbordo
+                if (!parent.getBus().equals(bus))
+                    this_cost = 1.0;
+                break;
+            case TIME:
+                this_cost = StopSchedule.diff(arrival, parent.getArrivalTime());
+                break;
+        }
+
+        cost = previous_cost + this_cost;
+
     }
 
 }

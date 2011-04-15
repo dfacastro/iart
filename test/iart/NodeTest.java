@@ -43,9 +43,69 @@ public class NodeTest {
      * Test of eval_cost method, of class Node.
      */
     @Test
-    public void testEval_cost() {
+    public void testEval_cost_modeCost() {
+        Display.mode = heuristicMode.COST;
 
+        Node n1 = new Node( new BusStop("A", 0, 0), "BUS1", new StopSchedule(10,10));
+        Node n2 = new Node( new BusStop("B", 0, 0), new StopSchedule(10,10));
+        n2.addChild(n1);
+        n1.eval_cost();
+        assertEquals(1.0, n1.getCost(), 0);
+
+        /**
+         * Àrvore: n3 (root) -> n2 -> n1 (leaf)
+         */
+        Node n3 = new Node( new BusStop("B", 0, 0), new StopSchedule(10,10));
+        n2 = new Node( new BusStop("B", 0, 0), "BUS2", new StopSchedule(10,10));
+        n1 = new Node( new BusStop("B", 0, 0), "BUS3", new StopSchedule(10,10));
+
+        n3.eval_cost();
+
+        n3.addChild(n2);
+        n2.eval_cost();
+
+        n2.addChild(n1);
+        n1.eval_cost();
+
+        assertEquals(1.0, n2.getCost(), 0.0);
+        assertEquals(2.0, n1.getCost(), 0.0);
+
+    }
+    
+    
+    /**
+     * Test of eval_cost method, of class Node.
+     */
+    @Test
+    public void testEval_cost_modeTime() {
+        Display.mode = heuristicMode.TIME;
         
+        Node n1 = new Node( new BusStop("A", 0, 0), "BUS1", new StopSchedule(11,16));   //FOLHA
+        Node n2 = new Node( new BusStop("A", 0, 0), "BUS1", new StopSchedule(10,50));
+        Node n3 = new Node( new BusStop("B", 0, 0), new StopSchedule(10,20));           //RAIZ
+
+        n3.eval_cost();
+
+        n3.addChild(n2);
+        n2.eval_cost();
+
+        n2.addChild(n1);
+        n1.eval_cost();
+
+        assertEquals(30.0, n2.getCost(), 0.0);
+        assertEquals(56.0, n1.getCost(), 0.0);
+     
     }
 
+    /**
+     * Test of eval_cost method, of class Node.
+     */
+    @Test
+    public void testEval_cost_modeDistance() {
+        Display.mode = heuristicMode.DISTANCE;
+
+        /**
+         * TODO:
+         */
+    }
 }
