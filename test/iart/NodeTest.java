@@ -107,5 +107,20 @@ public class NodeTest {
         /**
          * TODO:
          */
+        
+        Node n1 = new Node( new BusStop("A", 20, 30), "BUS1", new StopSchedule(11,16));   //FOLHA
+        Node n2 = new Node( new BusStop("A", 20, 0), "BUS1", new StopSchedule(10,50));
+        Node n3 = new Node( new BusStop("B", 0, 0), new StopSchedule(10,20));           //RAIZ
+        
+        n3.eval_cost();
+
+        n3.addChild(n2);
+        n2.eval_cost();
+
+        n2.addChild(n1);
+        n1.eval_cost();
+
+        assertEquals(20.0, n2.getCost(), 0.0);
+        assertEquals(50.0, n1.getCost(), 0.0);        
     }
 }
