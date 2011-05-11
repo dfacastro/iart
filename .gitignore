@@ -13,3 +13,4 @@ src/iart/JGraphAdapterDemo.java
 !test/*
 !/test/iart/
 !test/iart/*.java
+
