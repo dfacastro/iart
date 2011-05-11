@@ -22,3 +22,5 @@ cd ~/.ssh
 ssh-keygen -t rsa -C "<email>"
 //adicionar ssh key no painel de controlo
 ssh git@github.com
+
+teste
