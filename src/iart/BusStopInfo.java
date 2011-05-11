@@ -2,8 +2,6 @@ package iart;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * Esta classe representa o horário de um autocarro numa determinada paragem.
