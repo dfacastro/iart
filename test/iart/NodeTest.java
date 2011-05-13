@@ -195,8 +195,7 @@ public class NodeTest {
 
         assertEquals(1.0, n2.getCost(), 0.0);
         assertEquals(2.0, n1.getCost(), 0.0);
-
-    }
+	}
    */ 
     
 }
