@@ -113,7 +113,7 @@ public class Node {
      * retorna todos os nós filhos possíveis (excluindo as paragens ja visitadas no ramo)
      * @return
      */
-    Vector<Node> expand() {
+    public Vector<Node> expand() {
         Vector<Node> nodes = new Vector<Node>();
 
         //autocarros que passam nesta paragem
