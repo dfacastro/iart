@@ -16,6 +16,7 @@ public class Node {
     String bus = new String("");  //autocarro usado para viajar até ao nó actual
     StopSchedule arrival = null;
     double cost = -1.0;
+    double heuristic = -1.0;
 
     Vector<Node> children = new Vector<Node>();
     Node parent = null;
@@ -38,8 +39,9 @@ public class Node {
     public double heuristica (BusStop goal) { //metodo de calculo das heuristicas
     	double h=0;
     	// distancia = raiz((x^2-x1^2)+(y^2-y1^2))
-    	double distancia = java.lang.Math.sqrt((goal.getXCoord()*goal.getXCoord() - bstop.getXCoord()*bstop.getXCoord()) 
-    			+ (goal.getYCoord()*goal.getYCoord() - bstop.getYCoord()*bstop.getYCoord()));
+    	double distancia = java.lang.Math.hypot(
+    			java.lang.Math.abs(goal.getXCoord() - bstop.getXCoord()), 
+    			java.lang.Math.abs(goal.getYCoord() - bstop.getYCoord()));
 		
     	switch (Display.mode){
     	case DISTANCE:
@@ -69,7 +71,7 @@ public class Node {
     		break;
     	}
     	
-    	
+    	heuristic = h;
     	return h; 
     }
 
@@ -101,6 +103,10 @@ public class Node {
 
     public double getCost() {
         return cost;
+    }
+    
+    public double getHeuristic() {
+        return heuristic;
     }
 
     /**

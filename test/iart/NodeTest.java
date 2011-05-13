@@ -123,4 +123,80 @@ public class NodeTest {
         assertEquals(20.0, n2.getCost(), 0.0);
         assertEquals(50.0, n1.getCost(), 0.0);        
     }
+    
+    
+    /**
+     * Test of heuristica method, DISTANCE part, of class Node.
+     */
+    @Test
+    public void testHeuristica_modeDistance() {
+        Display.mode = heuristicMode.DISTANCE;
+
+        /**
+         * TODO:
+         */
+        
+        Node n1 = new Node( new BusStop("A", 5, 4), "BUS1", new StopSchedule(11,16));   //FOLHA
+        Node n2 = new Node( new BusStop("B", 5, 0), "BUS1", new StopSchedule(10,50));
+        Node n3 = new Node( new BusStop("C", 0, 0), new StopSchedule(10,20));           //RAIZ
+        
+        n3.heuristica(n1);
+
+        n3.addChild(n2);
+        n2.heuristica(n1);
+
+        n2.addChild(n1);
+        
+        assertEquals(6.4, n3.getHeuristic(), 0.1);
+        assertEquals(4.0, n2.getHeuristic(), 0.0);        
+    }
+    
+    /**
+     * Test of heuristica method, TIME part, of class Node.
+     */
+    @Test
+    public void testHeuristica_modeTime() {
+        Display.mode = heuristicMode.TIME;
+        
+        Node n1 = new Node( new BusStop("A", 5, 4), "BUS1", new StopSchedule(11,16));   //FOLHA
+        Node n2 = new Node( new BusStop("B", 5, 0), "BUS1", new StopSchedule(10,50));
+        Node n3 = new Node( new BusStop("C", 0, 0), new StopSchedule(10,20));           //RAIZ
+
+        n3.heuristica(n1);
+
+        n3.addChild(n2);
+        n2.heuristica(n1);
+
+        n2.addChild(n1);
+
+        assertEquals(6.4*60.0/50.0, n3.getHeuristic(), 0.1);
+        assertEquals(4.0*60.0/50.0, n2.getHeuristic(), 0.0);
+     
+    }
+    
+    /**
+     * Test of heuristic method, COST part, of class Node.
+     */
+ /*   @Test
+    public void testHeuristica_modeCost() {
+        Display.mode = heuristicMode.COST;
+
+        Node n1 = new Node( new BusStop("A", 0, 0), "BUS1", new StopSchedule(10,10));
+        Node n2 = new Node( new BusStop("B", 0, 0), new StopSchedule(10,10));
+        Node n3 = new Node( new BusStop("C", 0, 0), new StopSchedule(10,10));
+        
+        n3.eval_cost();
+
+        n3.addChild(n2);
+        n2.eval_cost();
+
+        n2.addChild(n1);
+        n1.eval_cost();
+
+        assertEquals(1.0, n2.getCost(), 0.0);
+        assertEquals(2.0, n1.getCost(), 0.0);
+
+    }
+   */ 
+    
 }
