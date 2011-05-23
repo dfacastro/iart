@@ -40,6 +40,10 @@ class StopSchedule implements Comparable {
         System.out.print("["+ hour + ":" + minutes + "]");
 
     }
+    
+    public String toString() {
+        return hour + ":" + minutes;
+    }
 
     public static int diff(StopSchedule ss1, StopSchedule ss2) {
         int diffMins = ss1.minutes - ss2.minutes;

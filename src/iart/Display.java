@@ -11,6 +11,7 @@
 
 package iart;
 
+import java.text.DecimalFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import org.jgraph.JGraph;
 public class Display extends javax.swing.JFrame {
     
     public double ticket_price;
+    public double scale = 50; //50px - 1km
 
     public static Vector<BusStop> busStops = new Vector<BusStop>();
     public static Vector<String> buses = new Vector<String>();
@@ -184,13 +186,13 @@ public class Display extends javax.swing.JFrame {
 
     jTable1.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
+            /*{null, null, null, null, null},
             {null, null, null, null, null},
             {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null}
+            {null, null, null, null, null}*/
         },
         new String [] {
-            "Paragem", "Tempo de Espera", "Partida", "Chegada", "Autocarro"
+            "Paragem", "T. Espera (mins)", "Partida", "Chegada", "Autocarro"
         }
     ) {
         Class[] types = new Class [] {
@@ -283,8 +285,7 @@ public class Display extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jRadioButton2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jRadioButton3)))
-                    .addGap(75, 75, 75)))
+                            .addComponent(jRadioButton3)))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(39, 39, 39)
@@ -351,25 +352,63 @@ public class Display extends javax.swing.JFrame {
         int destino = jComboBox2.getSelectedIndex();
         int hora = (int) jSpinner1.getValue();
         int min = (int) jSpinner2.getValue();
+        
+        if(origem == destino) {
+            jTextArea1.setText("Erro: destino igual a origem.");
+            return;
+        }
+        
         //jTable1.setValueAt("picas", 2, 2);
 
         //((DefaultTableModel )jTable1.getModel()).getRowCount();
         //((DefaultTableModel )jTable1.getModel()).insertRow(2, new Vector());
-        //jTable1.setValueAt("picas", 2, 6);
+        //jTable1.setValueAt("lol", 2, 6);
         
         Node n = new Node(busStops.get(origem), new StopSchedule(hora, min));
         path = aStar.aStarAlgorithm(n, busStops.get(destino));
-        
-        int n_rows = ((DefaultTableModel )jTable1.getModel()).getRowCount();
+
         //apaga a tabela
-        for(int i = n_rows-1; i >= 0; i--) {
-            ((DefaultTableModel )jTable1.getModel()).removeRow(i);
+        ((DefaultTableModel )jTable1.getModel()).setRowCount(0);
+
+        //preenche a tabela
+        for(int i= path.size()-1; i >= 0; i--) {
+            
+            //tempo de partida da paragem, chegada a' proxima e autocarro a apanhar
+            String arrival = "-";// = path.get(i).getArrivalTime().toString();
+            String bus = "-";
+            String departure = "-";
+            if(i-1 >= 0) {
+                arrival = path.get(i-1).getArrivalTime().toString();
+                bus = path.get(i-1).getBus();
+                departure = path.get(i-1).departure.toString();
+            }
+            
+            int waiting_time = 0;
+            if(i == path.size()-1)
+                waiting_time = StopSchedule.diff(new StopSchedule(hora, min), path.get(i-1).departure); 
+            else if(i != 0)
+                waiting_time = StopSchedule.diff(path.get(i-1).departure, path.get(i).arrival);
+            
+            //insere linha na tabela
+            ((DefaultTableModel )jTable1.getModel()).insertRow(path.size()-1 - i, new Object[] {
+                path.get(i).bstop.getName(),
+                waiting_time,
+                departure,
+                arrival,
+                bus}
+                    
+                    );
         }
         
-        for(int i= path.size()-1; i >= 0; i--) {
-            System.out.println(path.get(i).bstop.getName());
-            ((DefaultTableModel )jTable1.getModel()).insertRow(path.size()-1 - i, new Object[] {path.get(i).bstop.getName(), "lol2", i});
-        }
+        //calculo da distancia total percorrida e tempo total da viagem
+        int time_diff = StopSchedule.diff(new StopSchedule(hora, min), path.get(0).arrival);
+        DecimalFormat df = new DecimalFormat("#########.###");
+        double dist = path.get(0).dist/scale;
+        
+        jTextArea1.setText("Duração total da viagem: " + time_diff/60 + ":" + (time_diff - ((int)(time_diff/60)) * 60) + "\n"+
+                "Distancia total percorrida: " + df.format(dist));
+
+        
         
     }//GEN-LAST:event_jButton3ActionPerformed
 

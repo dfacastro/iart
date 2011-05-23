@@ -14,22 +14,26 @@ import java.util.Vector;
 public class Node {
     BusStop bstop = null;
     String bus = new String("");  //autocarro usado para viajar até ao nó actual
-    StopSchedule arrival = null;
+    StopSchedule departure = null; //partida da paragem anteriro
+    StopSchedule arrival = null; //chegada a' paragem actual
+    double dist = 0; //distancia percorrida
     double cost = -1.0;
     double heuristic = -1.0;
 
     Vector<Node> children = new Vector<Node>();
     Node parent = null;
 
-    Node(BusStop bs, String busName, StopSchedule arr) {
+    Node(BusStop bs, String busName, StopSchedule arr, StopSchedule dep) {
         bstop = bs;
         bus = busName;
         arrival = arr;
+        departure = dep;
     }
 
     Node (BusStop bs, StopSchedule now) {
         bstop = bs;
         arrival = now;
+        
     }
 
     public StopSchedule getArrivalTime() {
@@ -67,7 +71,7 @@ public class Node {
     		}
     		break;
     	case TIME:
-    		h = distancia*60 / 50;
+    		h = distancia*60 / 50*50; //50 = relacao px->km
     		break;
     	}
     	
@@ -83,6 +87,11 @@ public class Node {
     public void addChild(Node child) {
         child.setParent(this);
         children.add(child);
+        
+        //distancia percorrida
+        child.dist = this.dist + Math.hypot(
+    			java.lang.Math.abs(child.bstop.getXCoord() - bstop.getXCoord()), 
+    			java.lang.Math.abs(child.bstop.getYCoord() - bstop.getYCoord()));
     }
 
     private void setParent(Node n) {
@@ -142,7 +151,7 @@ public class Node {
             //tempo de chegada do autocarro bus ao destino
             StopSchedule next_arrival = next.departure(buses[i], departure);
             if(!alreadyVisited)
-                nodes.add(new Node( next, buses[i], next_arrival));
+                nodes.add(new Node( next, buses[i], next_arrival, departure));
         }
         return nodes;
     }
