@@ -143,9 +143,7 @@ public class Node {
             StopSchedule next_arrival = next.departure(buses[i], departure);
             if(!alreadyVisited)
                 nodes.add(new Node( next, buses[i], next_arrival));
-
         }
-        
         return nodes;
     }
 
@@ -179,5 +177,8 @@ public class Node {
         cost = previous_cost + this_cost;
 
     }
+    
+    
+    
 
 }

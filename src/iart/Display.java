@@ -26,7 +26,7 @@ public class Display extends javax.swing.JFrame {
     public static Vector<String> buses = new Vector<String>();
     public static MyGraph mg = new MyGraph();
     public static JGraph jgraph;
-    public static heuristicMode mode;
+    public static heuristicMode mode = heuristicMode.DISTANCE;
 
     public static Boolean graphInitialized = false;
 
@@ -43,6 +43,19 @@ public class Display extends javax.swing.JFrame {
         initComponents();
 
         graphInitialized = true;
+        
+        System.out.println("---------------------");
+        Node n = new Node(busStops.get(0), new StopSchedule(10, 0));
+        Vector<Node> path = aStar.aStarAlgorithm(n, busStops.get(busStops.size()-3));
+        
+        System.out.println("---------------------");
+        System.out.println("");
+        System.out.println("de: "+ busStops.get(0).getName()+" ate: "+busStops.get(busStops.size()-3).getName());
+        System.out.println("Size: "+path.size());
+        System.out.println("Caminho: "+path.get(0).getBusStop().getName());
+        System.out.println("");
+        
+        
     }
 
     /** This method is called from within the constructor to
@@ -146,7 +159,6 @@ public class Display extends javax.swing.JFrame {
         });
         
         jgraph = mg.getJGraph();
-
         //espera que o display (interface, grafo, etc) seja inicializado
         while (!graphInitialized) {
             
@@ -164,6 +176,10 @@ public class Display extends javax.swing.JFrame {
             nodes.get(i).getArrivalTime().print();
             System.out.println();
         }*/
+        
+        
+
+        
 
     }
 
