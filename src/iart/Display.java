@@ -350,8 +350,8 @@ public class Display extends javax.swing.JFrame {
         System.out.println(jComboBox1.getSelectedIndex());
         int origem = jComboBox1.getSelectedIndex();
         int destino = jComboBox2.getSelectedIndex();
-        int hora = (int) jSpinner1.getValue();
-        int min = (int) jSpinner2.getValue();
+        Integer hora = (Integer) jSpinner1.getValue();
+        Integer min = (Integer) jSpinner2.getValue();
         
         if(origem == destino) {
             jTextArea1.setText("Erro: destino igual a origem.");
@@ -472,12 +472,15 @@ public class Display extends javax.swing.JFrame {
         if (index == -1) {
             mg.resetEdges();
             
+            String e = "";
             for (int i = 0; i < busStops.size(); i++) {
                 String origin = busStops.get(i).getName();
                 Vector<String> neighbors = busStops.get(i).getNeighbors();
+                
 
                 for (int j = 0; j < neighbors.size(); j++) {
-                    mg.addEdge(origin, neighbors.get(j));
+                    e += " ";
+                    mg.addEdge(origin, neighbors.get(j), e);
                 }
 
             }
@@ -499,9 +502,11 @@ public class Display extends javax.swing.JFrame {
 
         //mostra no grafo o trajecto encontrado
         mg.resetEdges();
-
+        
+        String e = "";
         for (int i = 1; i < route.size(); i++) {
-            mg.addEdge(route.get(i - 1), route.get(i));
+            mg.addEdge(route.get(i - 1), route.get(i), e);
+            e+= " ";
         }
 
     }
@@ -551,13 +556,15 @@ public class Display extends javax.swing.JFrame {
             mg.addVertex(busStops.get(i).getName(), busStops.get(i).getXCoord(), busStops.get(i).getYCoord());
         }
 
+        String e = "";
         //adicionar arestas
         for (int i = 0; i < busStops.size(); i++) {
             String origin = busStops.get(i).getName();
             Vector<String> neighbors = busStops.get(i).getNeighbors();
-
+            
             for (int j = 0; j < neighbors.size(); j++) {
-                mg.addEdge(origin, neighbors.get(j));
+                mg.addEdge(origin, neighbors.get(j), e);
+                e+= " ";
             }
         }
         jgraph = mg.getJGraph();

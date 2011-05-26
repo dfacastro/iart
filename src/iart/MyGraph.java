@@ -69,8 +69,8 @@ public class MyGraph extends JFrame {
      * @param a: vertice origem
      * @param b: vertice destino
      */
-    public void addEdge(String a, String b) {
-        g.addEdge(a,b, a + " - " + b);
+    public void addEdge(String a, String b, String name) {
+        g.addEdge(a,b, name);
         Object[] x = g.edgeSet().toArray();
 
       //  for(int i = 0; i < x.length; i++)
