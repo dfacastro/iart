@@ -350,8 +350,8 @@ public class Display extends javax.swing.JFrame {
         System.out.println(jComboBox1.getSelectedIndex());
         int origem = jComboBox1.getSelectedIndex();
         int destino = jComboBox2.getSelectedIndex();
-        int hora = (int) jSpinner1.getValue();
-        int min = (int) jSpinner2.getValue();
+        int hora = (Integer) jSpinner1.getValue();
+        int min = (Integer) jSpinner2.getValue();
         
         if(origem == destino) {
             jTextArea1.setText("Erro: destino igual a origem.");
