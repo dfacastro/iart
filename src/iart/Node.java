@@ -71,7 +71,7 @@ public class Node {
     		}
     		break;
     	case TIME:
-    		h = distancia*60 / 50*50; //50 = relacao px->km
+    		h = (distancia*60) / (50*50); //50 = relacao px->km
     		break;
     	}
     	
