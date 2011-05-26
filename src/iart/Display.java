@@ -472,12 +472,14 @@ public class Display extends javax.swing.JFrame {
         if (index == -1) {
             mg.resetEdges();
             
+            String e = "";
             for (int i = 0; i < busStops.size(); i++) {
                 String origin = busStops.get(i).getName();
                 Vector<String> neighbors = busStops.get(i).getNeighbors();
 
                 for (int j = 0; j < neighbors.size(); j++) {
-                    mg.addEdge(origin, neighbors.get(j));
+                    mg.addEdge(origin, neighbors.get(j), e);
+                    e += " ";
                 }
 
             }
@@ -499,9 +501,10 @@ public class Display extends javax.swing.JFrame {
 
         //mostra no grafo o trajecto encontrado
         mg.resetEdges();
-
+        String e = "";
         for (int i = 1; i < route.size(); i++) {
-            mg.addEdge(route.get(i - 1), route.get(i));
+            mg.addEdge(route.get(i - 1), route.get(i), e);
+            e += " ";
         }
 
     }
@@ -552,12 +555,14 @@ public class Display extends javax.swing.JFrame {
         }
 
         //adicionar arestas
+        String e = "";
         for (int i = 0; i < busStops.size(); i++) {
             String origin = busStops.get(i).getName();
             Vector<String> neighbors = busStops.get(i).getNeighbors();
 
             for (int j = 0; j < neighbors.size(); j++) {
-                mg.addEdge(origin, neighbors.get(j));
+                mg.addEdge(origin, neighbors.get(j), e);
+                e += " ";
             }
         }
         jgraph = mg.getJGraph();

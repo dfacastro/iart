@@ -27,7 +27,7 @@ public class MyGraph extends JFrame {
     ListenableDirectedWeightedGraph<String,String> g = new ListenableDirectedWeightedGraph ( DefaultWeightedEdge.class);
     
     private static final Color     DEFAULT_BG_COLOR = Color.decode( "#FAFBFF" );
-    private static final Dimension DEFAULT_SIZE = new Dimension( 530, 320 );
+    private static final Dimension DEFAULT_SIZE = new Dimension( 1200, 1200 );
 
     //
     private JGraphModelAdapter m_jgAdapter;
