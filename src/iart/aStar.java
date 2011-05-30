@@ -1,13 +1,19 @@
 package iart;
-
+/**
+ * Classe responsavel pela implementação do algoritmo A*
+ */
 import java.util.Vector;
 
 public class aStar {
 	private static Vector<Node> closedSet = new Vector<Node>();
 	private static Vector<Node> openSet = new Vector<Node>();
 	
+	/**
+	 * Calcula o no com menor F.
+	 * @param openSet
+	 * @return
+	 */
 	private static Node lowerF(Vector<Node> openSet){
-		//TODO: funcao para calcular nó com menor heuristica
 		if(openSet.size() == 0) return null;
 		Node n = openSet.get(0);
 		for(int i = 1; i<openSet.size(); i++){
@@ -37,7 +43,6 @@ public class aStar {
 			if(node.getBusStop() == goal){
 				System.out.println("Encontrei o destino ");
 				Vector<Node> path = new Vector<Node>();
-				
 				Node val = node;
 				while(val!=null){
 					path.add(val);

@@ -6,7 +6,6 @@ import java.util.Arrays;
 /**
  * Esta classe representa o horário de um autocarro numa determinada paragem.
  * Inclui também uma referência para a próxima paragem do seu percurso.
- * @author Diogo
  */
 public class BusStopInfo {
 

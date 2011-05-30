@@ -6,7 +6,6 @@
 /*
  * Display.java
  *
- * Created on 11/Abr/2011, 15:38:02
  */
 
 package iart;
@@ -319,34 +318,34 @@ public class Display extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:        
+        //  add your handling code here:        
         displayRoute(jList1.getAnchorSelectionIndex());
         System.out.println("Selected Bus no.: " + jList1.getAnchorSelectionIndex());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        //  add your handling code here:
         displayRoute(-1);
         System.out.println("Displaying all routes.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
+        //  add your handling code here:
         mode = heuristicMode.DISTANCE;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        // TODO add your handling code here:
+        //  add your handling code here:
         mode = heuristicMode.COST;
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        // TODO add your handling code here:
+        //  add your handling code here:
         mode = heuristicMode.TIME;
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        //  add your handling code here:
         System.out.println(jComboBox1.getSelectedIndex());
         int origem = jComboBox1.getSelectedIndex();
         int destino = jComboBox2.getSelectedIndex();

@@ -8,8 +8,7 @@ package iart;
 import java.util.Vector;
 
 /**
- *
- * @author Diogo
+ * Classe que inplementa a classe no para utilizar no algoritmo A* bem como as suas heuristicas
  */
 public class Node {
     BusStop bstop = null;

@@ -13,8 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Diogo
+ *	le configuracoes de ficheiro
  */
 public class Config {
 

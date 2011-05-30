@@ -8,10 +8,10 @@ package iart;
 import java.util.HashMap;
 import java.util.Vector;
 
-/**
- *
- * @author Diogo
+/*
+ * Classe que contem informacao sobre uma paragem
  */
+
 public class BusStop {
     private String name;
     private int x, y;

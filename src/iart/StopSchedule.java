@@ -6,8 +6,7 @@
 package iart;
 
 /**
- *
- * @author Diogo
+ * Classe que implementa o horario de uma paragem.
  */
 class StopSchedule implements Comparable {
     public int hour;

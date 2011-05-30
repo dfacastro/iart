@@ -21,7 +21,6 @@ import org.jgrapht.graph.ListenableDirectedWeightedGraph;
 
 /**
  * Implementa grafo dirigido pesado
- * @author Diogo
  */
 public class MyGraph extends JFrame {
     ListenableDirectedWeightedGraph<String,String> g = new ListenableDirectedWeightedGraph ( DefaultWeightedEdge.class);

@@ -8,10 +8,7 @@ package iart;
 import java.util.HashMap;
 import java.util.Vector;
 
-/**
- *
- * @author Diogo
- */
+
 public class Bus {
    //horário para cada paragem
    public HashMap<String, Vector<StopSchedule>> stops = new HashMap<String, Vector<StopSchedule>>();
